@@ -1,0 +1,25 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Your cart - Rainbow Books</title><link rel="stylesheet" href="style.css"></head><body>
+<header class="hd" id="hd"></header>
+
+<div class="page-h"><div class="wrap"><h1>Your cart</h1><p>Check your books, then choose how you would like to get them.</p></div></div>
+<div class="wrap" style="padding-top:30px"><div id="empty" class="box" style="display:none;text-align:center"><h2>Your cart is empty</h2><p style="color:var(--mute);margin-bottom:16px">Add a book and it will show up here.</p><a class="btn go" href="shop.html">Browse books</a></div>
+<div class="cols" id="full"><div class="box"><h2>Books in your cart</h2><div id="lines"></div></div>
+<div class="slip"><h2>Order summary</h2><div class="field"><label>How do you want your books?</label><div style="display:flex;flex-direction:column;gap:8px"><label style="margin:0;color:var(--ink)"><input type="radio" name="dl" value="post" checked>Home delivery</label><label style="margin:0;color:var(--ink)"><input type="radio" name="dl" value="collect">Click and collect (free)</label></div></div>
+<div class="field" id="stw" style="display:none"><label for="cst">Collect from</label><select id="cst"></select></div>
+<div class="sum"><span>Books</span><span id="sb"></span></div><div class="sum"><span>Delivery</span><span id="sd"></span></div><div class="sum t"><span>Total</span><span id="st"></span></div>
+<div id="fr" class="note"></div><a class="btn go" href="checkout.html" id="co" style="display:block;text-align:center;margin-top:10px">Go to checkout</a></div></div></div>
+<footer class="ft" id="ft"></footer>
+<script src="app.js"></script><script>RB.init("");
+var cs=document.getElementById("cst");cs.innerHTML=RB.STORES.map(function(s,i){return '<option value="'+s.n+'">'+s.n+'</option>'}).join("");
+var o=RB.get("rb_opt",{dl:"post",st:RB.STORES[0].n});
+function draw(){var c=RB.cart();document.getElementById("empty").style.display=c.length?"none":"block";document.getElementById("full").style.display=c.length?"grid":"none";
+document.getElementById("lines").innerHTML=c.map(function(l,i){var b=RB.book(l.id);return '<div class="line">'+RB.cover(b)+'<div class="info"><h3>'+RB.esc(b.t)+'</h3><div style="color:var(--mute);font-size:14px">'+RB.esc(b.a)+' &middot; '+l.f+'</div></div><div class="step"><button data-m="'+i+'" aria-label="Fewer">&minus;</button><span>'+l.q+'</span><button data-p="'+i+'" aria-label="More">+</button></div><div class="price" style="width:80px;text-align:right">'+RB.money(RB.price(l)*l.q)+'</div><button class="btn sm" data-r="'+i+'">Remove</button></div>'}).join("");
+var sub=c.reduce(function(a,l){return a+RB.price(l)*l.q},0),phys=c.some(function(l){return l.f=="Paperback"}),post=o.dl=="post"&&phys,ship=post&&sub<60?8.95:0;
+document.getElementById("sb").textContent=RB.money(sub);document.getElementById("sd").textContent=!phys?"No delivery (e-books)":ship?RB.money(ship):"Free";document.getElementById("st").textContent=RB.money(sub+ship);
+document.getElementById("fr").textContent=!phys?"E-books are sent to your account straight after payment.":o.dl=="collect"?"We will email you when your books are ready at the store.":sub>=60?"You have free delivery.":"Spend "+RB.money(60-sub)+" more for free delivery.";
+document.getElementById("stw").style.display=o.dl=="collect"&&phys?"block":"none";cs.value=o.st;document.querySelector("input[name=dl][value="+o.dl+"]").checked=true;
+document.querySelectorAll("[data-m]").forEach(function(b){b.onclick=function(){var c=RB.cart(),i=b.getAttribute("data-m");c[i].q=Math.max(1,c[i].q-1);RB.saveCart(c);draw()}});
+document.querySelectorAll("[data-p]").forEach(function(b){b.onclick=function(){var c=RB.cart(),i=b.getAttribute("data-p");c[i].q=Math.min(20,c[i].q+1);RB.saveCart(c);draw()}});
+document.querySelectorAll("[data-r]").forEach(function(b){b.onclick=function(){var c=RB.cart();c.splice(b.getAttribute("data-r"),1);RB.saveCart(c);draw()}});
+RB.set("rb_total",{sub:sub,ship:ship})}
+document.querySelectorAll("input[name=dl]").forEach(function(e){e.onchange=function(){o.dl=e.value;RB.set("rb_opt",o);draw()}});cs.onchange=function(){o.st=cs.value;RB.set("rb_opt",o);draw()};draw();</script></body></html>

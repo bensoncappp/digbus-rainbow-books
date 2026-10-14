@@ -1,0 +1,13 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Order confirmed - Rainbow Books</title><link rel="stylesheet" href="style.css"></head><body>
+<header class="hd" id="hd"></header>
+
+<div class="page-h"><div class="wrap"><h1>Thank you. Your order is in.</h1><p id="sub"></p></div></div>
+<div class="wrap" style="padding-top:30px"><div class="route" id="route"></div><div class="cols" style="margin-top:30px"><div class="box"><h2>What you ordered</h2><div id="ol"></div></div><div class="panel"><h3 style="font-size:22px;margin-bottom:8px">What happens next</h3><p id="nx" style="color:var(--mute);margin-bottom:14px"></p><a class="btn ink" href="shop.html">Keep browsing</a></div></div></div>
+<footer class="ft" id="ft"></footer>
+<script src="app.js"></script><script>RB.init("");
+var o=RB.get("rb_order",null);if(!o){location.href="shop.html"}else{
+document.getElementById("sub").textContent="Order "+o.n+" for "+o.name+". A confirmation has been sent to "+o.email+".";
+var phys=o.lines.some(function(l){return l.f=="Paperback"});
+document.getElementById("route").innerHTML='<div><i></i>Order placed</div><div class="todo"><i></i>Packed at the warehouse</div><div class="todo"><i></i>'+(o.post?'On its way':o.dl=="collect"&&phys?'Ready to collect':'In your account')+'</div>';
+document.getElementById("nx").textContent=!phys?"Your e-books are ready in your account now.":o.post?"The warehouse will pack your order and send it to your address in 3 to 5 working days.":"We will email you when your books are ready at "+o.st+".";
+document.getElementById("ol").innerHTML=o.lines.map(function(l){var b=RB.book(l.id);return '<div class="sum"><span>'+l.q+' &times; '+RB.esc(b.t)+' ('+l.f+')</span><span>'+RB.money(RB.price(l)*l.q)+'</span></div>'}).join("")+'<div class="sum t"><span>Total paid</span><span>'+RB.money(o.sub+o.ship)+'</span></div>'}</script></body></html>
