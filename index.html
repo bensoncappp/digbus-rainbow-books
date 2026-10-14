@@ -1,0 +1,22 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Home - Rainbow Books</title><link rel="stylesheet" href="style.css"></head><body>
+<header class="hd" id="hd"></header>
+
+<div class="hero"><div class="wrap">
+ <div><h1>Books at the end of the rainbow</h1><p class="lead">Victoria's own bookshop since 1946. Browse paperbacks and e-books online, or collect from a store near you.</p>
+ <form action="shop.html" method="get" role="search"><input type="search" name="q" placeholder="Search by title, author or ISBN" aria-label="Search books"><button class="btn go" type="submit">Search</button></form></div>
+ <div class="shelf" id="heroShelf"></div><div class="plank"></div></div></div>
+<section><div class="wrap"><div class="sec-h"><h2>New on the shelves</h2><a href="shop.html">See every book</a></div><div class="grid" id="newGrid"></div></div></section>
+<div class="band"><section><div class="wrap two">
+ <div><h2 style="font-size:36px;margin-bottom:12px">Read it your way</h2><p style="color:var(--mute);margin-bottom:14px;max-width:480px">Every Rainbow Publishing title comes as a paperback and an e-book. Buy one or both, and read a sample before you decide.</p><a class="btn ink" href="ebooks.html">Browse e-books</a> &nbsp; <a class="btn" href="shop.html">Browse paperbacks</a></div>
+ <div class="panel"><h3 style="font-size:22px;margin-bottom:10px">Order online, collect in store</h3><p style="color:var(--mute);margin-bottom:14px">Choose click and collect at checkout and we will hold your books at the store you pick. Free over $60 for home delivery.</p><a class="btn go" href="stores.html">Find a store</a></div></div></section></div>
+<section><div class="wrap"><div class="sec-h"><h2>On in our stores</h2><a href="stores.html">All stores</a></div>
+ <div class="events"><div class="ev"><div class="d">Thu 22 Oct</div><h3 style="font-size:20px;margin:6px 0">Author night with Ren Chen</h3><p style="color:var(--mute);font-size:15px">Readings and questions from the author of Tides of Southbank. Collins Street, 6:30 pm.</p></div>
+ <div class="ev"><div class="d">Sat 24 Oct</div><h3 style="font-size:20px;margin:6px 0">Storytime for ages 3 to 6</h3><p style="color:var(--mute);font-size:15px">Pip and the Paper Boat read aloud, with paper boat making. Southbank, 10:30 am.</p></div>
+ <div class="ev"><div class="d">Tue 3 Nov</div><h3 style="font-size:20px;margin:6px 0">Book club: The Quiet Orchard</h3><p style="color:var(--mute);font-size:15px">Join our monthly discussion night with tea and cake. Eastpoint, Bayswater, 7 pm.</p></div></div></div></section>
+<div class="band"><section><div class="wrap two"><div class="panel"><h3 style="font-size:24px;margin-bottom:8px">Have a manuscript?</h3><p style="color:var(--mute);margin-bottom:14px">Rainbow Publishing works with new and independent authors. Send us your work, or ask how we can help you self-publish and sell in our stores.</p><a class="btn ink" href="authors.html">Write for Rainbow Publishing</a></div>
+<div><h2 style="font-size:36px;margin-bottom:12px">Run a Rainbow Books store?</h2><p style="color:var(--mute);margin-bottom:14px;max-width:480px">Staff can check stock, place orders with the warehouse and track deliveries in one place.</p><a class="btn" href="staff.html">Go to the staff area</a></div></div></section></div>
+
+<footer class="ft" id="ft"></footer>
+<script src="app.js"></script><script>RB.init("");
+var B=RB.BOOKS;document.getElementById("heroShelf").innerHTML=[12,1,2,3].map(function(i){return RB.cover(RB.book(i),"sm")}).join("");
+document.getElementById("newGrid").innerHTML=B.filter(function(b){return b.new}).slice(0,4).map(RB.card).join("");RB.bindAdd();</script></body></html>
