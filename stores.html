@@ -1,0 +1,12 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Find a store - Rainbow Books</title><link rel="stylesheet" href="style.css"></head><body>
+<header class="hd" id="hd"></header>
+
+<div class="page-h"><div class="wrap"><h1>Find a store</h1><p>Visit us in Melbourne and across Victoria. Order online and collect from any store.</p></div></div>
+<div class="wrap" style="padding-top:30px"><div class="filters"><div style="flex:2"><label for="q">Suburb, town or postcode</label><input type="search" id="q" placeholder="Try Geelong or 3000"></div><div><label>Store type</label><div class="radios"><label style="margin:0;color:var(--ink)"><input type="radio" name="t" value="" checked>All</label><label style="margin:0;color:var(--ink)"><input type="radio" name="t" value="Company">Company</label><label style="margin:0;color:var(--ink)"><input type="radio" name="t" value="Franchise">Franchise</label></div></div></div>
+<div id="list"></div><div id="none" class="note" style="display:none">No stores match that search. Try a nearby suburb or clear the type filter.</div></div>
+<footer class="ft" id="ft"></footer>
+<script src="app.js"></script><script>RB.init("stores");
+function draw(){var q=document.getElementById("q").value.toLowerCase(),t=document.querySelector("input[name=t]:checked").value;
+var r=RB.STORES.filter(function(s){return (!q||(s.n+" "+s.s+" "+s.pc).toLowerCase().indexOf(q)>-1)&&(!t||s.t==t)});
+document.getElementById("list").innerHTML=r.map(function(s){return '<div class="store '+(s.t=="Franchise"?"f":"")+'"><div style="flex:1"><h3>'+s.n+'</h3><div class="m">'+s.s+' '+s.pc+' &middot; '+s.t+' store</div><div style="margin-top:8px;font-size:15px">'+s.h+'</div><div class="m" style="margin-top:2px">'+s.ph+'</div></div><div style="text-align:right"><span class="tag s">Click and collect</span><div style="margin-top:14px"><a class="btn sm" href="shop.html">Shop for this store</a></div></div></div>'}).join("");document.getElementById("none").style.display=r.length?"none":"block"}
+document.getElementById("q").oninput=draw;document.querySelectorAll("input[name=t]").forEach(function(e){e.onchange=draw});draw();</script></body></html>

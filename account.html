@@ -1,0 +1,13 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Your account - Rainbow Books</title><link rel="stylesheet" href="style.css"></head><body>
+<header class="hd" id="hd"></header>
+
+<div class="page-h"><div class="wrap"><h1>Your account</h1><p>Sign in to see your orders and your saved e-books.</p></div></div>
+<div class="wrap" style="padding-top:30px;max-width:560px"><div class="tabs" role="tablist"><button class="on" id="t1">Sign in</button><button id="t2">Create an account</button></div>
+<form class="box" id="f" novalidate><div id="msg" class="note ok" style="display:none"></div><div class="field" id="nw" style="display:none"><label for="nm">Your name</label><input id="nm" type="text"></div><div class="field"><label for="em">Email</label><input id="em" type="email"></div><div class="field"><label for="pw">Password</label><input id="pw" type="password"></div><div class="field"><label><input type="checkbox" id="kp" checked>Keep me signed in</label></div><button class="btn go" id="sb" style="width:100%">Sign in</button><p style="margin-top:14px;font-size:14px"><a href="#" id="fg">I forgot my password</a></p></form></div>
+<footer class="ft" id="ft"></footer>
+<script src="app.js"></script><script>RB.init("");
+var mode=1;function tab(m){mode=m;document.getElementById("t1").className=m==1?"on":"";document.getElementById("t2").className=m==2?"on":"";document.getElementById("nw").style.display=m==2?"block":"none";document.getElementById("sb").textContent=m==1?"Sign in":"Create account"}
+document.getElementById("t1").onclick=function(){tab(1)};document.getElementById("t2").onclick=function(){tab(2)};
+document.getElementById("fg").onclick=function(e){e.preventDefault();RB.toast("We would email you a reset link here")};
+document.getElementById("f").onsubmit=function(ev){ev.preventDefault();var em=document.getElementById("em").value,m=document.getElementById("msg");if(!/.+@.+\..+/.test(em)){m.style.display="block";m.className="note";m.style.background="#fde5df";m.textContent="Enter a valid email address.";return}
+var nm=(mode==2&&document.getElementById("nm").value)||em.split("@")[0];RB.set("rb_user",nm);m.style.display="block";m.className="note ok";m.style.background="";m.textContent=(mode==1?"Signed in as ":"Account created for ")+nm+". (Prototype: no real account is made.)";setTimeout(function(){location.href="index.html"},1200)}</script></body></html>

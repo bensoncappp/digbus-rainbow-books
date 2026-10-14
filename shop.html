@@ -1,0 +1,19 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Shop - Rainbow Books</title><link rel="stylesheet" href="style.css"></head><body>
+<header class="hd" id="hd"></header>
+
+<div class="page-h"><div class="wrap"><h1>Shop paperbacks</h1><p>Search the range, then add what you like to your cart.</p></div></div>
+<div class="wrap" style="padding-top:28px">
+<div class="filters"><div style="flex:2"><label for="q">Title, author or ISBN</label><input type="search" id="q" placeholder="Try Salt Road or Okafor"></div>
+<div><label for="cat">Category</label><select id="cat"><option value="">All categories</option></select></div>
+<div><label for="sort">Sort by</label><select id="sort"><option value="n">Newest first</option><option value="a">Title A to Z</option><option value="l">Price low to high</option><option value="h">Price high to low</option></select></div>
+<div><label>Published by</label><div class="radios"><label style="margin:0;color:var(--ink)"><input type="radio" name="pub" value="" checked>Anyone</label><label style="margin:0;color:var(--ink)"><input type="radio" name="pub" value="1">Rainbow Publishing</label></div></div></div>
+<div id="count" style="color:var(--mute);margin-bottom:16px"></div><div class="grid" id="grid"></div><div id="none" class="note" style="display:none">No books match that search. Clear a filter or try another word.</div></div>
+<footer class="ft" id="ft"></footer>
+<script src="app.js"></script><script>RB.init("shop");
+var B=RB.BOOKS,cats={};B.forEach(function(b){cats[b.c]=1});var cs=document.getElementById("cat");Object.keys(cats).sort().forEach(function(c){var o=document.createElement("option");o.value=c;o.textContent=c;cs.appendChild(o)});
+var qs=new URLSearchParams(location.search);if(qs.get("q"))document.getElementById("q").value=qs.get("q");if(qs.get("cat"))cs.value=qs.get("cat");
+function draw(){var q=document.getElementById("q").value.toLowerCase(),c=cs.value,s=document.getElementById("sort").value,p=document.querySelector("input[name=pub]:checked").value;
+var r=B.filter(function(b){return (!q||(b.t+" "+b.a).toLowerCase().indexOf(q)>-1)&&(!c||b.c==c)&&(!p||b.pub)});
+r.sort(function(x,y){return s=="a"?x.t.localeCompare(y.t):s=="l"?x.p-y.p:s=="h"?y.p-x.p:(y.new-x.new)||(x.id-y.id)});
+document.getElementById("grid").innerHTML=r.map(RB.card).join("");document.getElementById("count").textContent=r.length+" book"+(r.length==1?"":"s");document.getElementById("none").style.display=r.length?"none":"block";RB.bindAdd()}
+["q","cat","sort"].forEach(function(i){document.getElementById(i).addEventListener("input",draw)});document.querySelectorAll("input[name=pub]").forEach(function(e){e.addEventListener("change",draw)});draw();</script></body></html>
